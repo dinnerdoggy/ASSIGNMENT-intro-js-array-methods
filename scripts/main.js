@@ -6,8 +6,11 @@ import { renderToDom } from "../utils/renderToDom.js";
 // Reusable function to get the cards on the DOM
 // .forEach()
 const renderCards = (array) => {
-  let refStuff = "<h1 class='text-white'>Cards Go Here!</h1>";
-  renderToDom("#cards", refStuff);
+  let refStuff = "";
+  array.forEach((item) => {
+    refStuff += card(item);
+  })
+  renderToDom("#cards", refStuff)
 }
 
 // UPDATE/ADD ITEMS TO CART
@@ -22,23 +25,34 @@ const toggleCart = (event) => {
 // .filter()
 const search = (event) => {
   const eventLC = event.target.value.toLowerCase();
-  console.log(eventLC)
+  const searchResult = referenceList.filter(info => 
+    info.title.toLowerCase() === eventLC ||
+    info.author.toLowerCase() === eventLC ||
+    info.description.toLowerCase() === eventLC);
+  if (eventLC === "") {
+    renderCards(referenceList);
+  } else {
+  renderCards(searchResult);
+  }
 }
 
 // BUTTON FILTER
 // .filter() & .reduce() &.sort() - chaining
 const buttonFilter = (event) => {
   if(event.target.id.includes('free')) {
-    console.log('FREE')
+    const free = referenceList.filter(item => item.price <= 0);
+    renderCards(free);
   }
   if(event.target.id.includes('cartFilter')) {
-    console.log('cartFilter')
+    const inCart = referenceList.filter(item => item.inCart === true);
+    renderCards(inCart);
   }
   if(event.target.id.includes('books')) {
-    console.log('books!')
+    const books = referenceList.filter(item => item.type === "Book");
+    renderCards(books)
   }
   if(event.target.id.includes('clearFilter')) {
-    console.log('clearFilter')
+    renderCards(referenceList)
   }
   if(event.target.id.includes('productList')) {
     let table = `<table class="table table-dark table-striped" style="width: 600px">
@@ -73,7 +87,11 @@ const cartTotal = () => {
 // RESHAPE DATA TO RENDER TO DOM
 // .map()
 const productList = () => {
-  return [{ title: "SAMPLE TITLE", price: 45.00, type: "SAMPLE TYPE" }]
+  return referenceList.map(item => ({
+    title: item.title,
+    price: item.price,
+    type: item.type
+  }))
 }
 
 
