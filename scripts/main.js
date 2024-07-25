@@ -17,7 +17,12 @@ const renderCards = (array) => {
 // .findIndex() & (.includes() - string method)
 const toggleCart = (event) => {
   if (event.target.id.includes("fav-btn")) {
-   console.log('Clicked Fav btn')
+   const [, id] = event.target.id.split('--');
+   const index = referenceList.findIndex(obj => obj.id === Number(id));
+   
+   referenceList[index].inCart = !referenceList[index].inCart
+   cartTotal();
+   renderCards(referenceList)
   }
 }
 
@@ -29,12 +34,9 @@ const search = (event) => {
     info.title.toLowerCase().includes(eventLC) ||
     info.author.toLowerCase().includes(eventLC) ||
     info.description.toLowerCase().includes(eventLC));
-  if (eventLC === "") {
-    renderCards(referenceList);
-  } else {
   renderCards(searchResult);
   }
-}
+
 
 // BUTTON FILTER
 // .filter() & .reduce() &.sort() - chaining
