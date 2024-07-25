@@ -82,6 +82,7 @@ const buttonFilter = (event) => {
 // CALCULATE CART TOTAL
 // .reduce() & .some()
 const cartTotal = () => {
+  const cart = referenceList.filter() //stopped here
   const total = 0
   document.querySelector("#cartTotal").innerHTML = total.toFixed(2);
 }
