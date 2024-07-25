@@ -26,9 +26,9 @@ const toggleCart = (event) => {
 const search = (event) => {
   const eventLC = event.target.value.toLowerCase();
   const searchResult = referenceList.filter(info => 
-    info.title.toLowerCase() === eventLC ||
-    info.author.toLowerCase() === eventLC ||
-    info.description.toLowerCase() === eventLC);
+    info.title.toLowerCase().includes(eventLC) ||
+    info.author.toLowerCase().includes(eventLC) ||
+    info.description.toLowerCase().includes(eventLC));
   if (eventLC === "") {
     renderCards(referenceList);
   } else {
